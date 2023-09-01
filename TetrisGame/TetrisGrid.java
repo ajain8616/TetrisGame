@@ -50,6 +50,13 @@ public class TetrisGrid extends JPanel {
 
             }
         });
+        rotatedShapes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+             rotatedShapes();     
+
+            }
+        });
 
         // Adding some spaces between buttons
         buttonPanelJPanel.add(leftButton);
@@ -169,4 +176,7 @@ public class TetrisGrid extends JPanel {
         
     }
     
+    private void rotatedShapes() {
+        
+    }
 }
