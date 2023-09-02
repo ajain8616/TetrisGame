@@ -3,6 +3,8 @@ package TetrisGame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class TetrisGame extends JPanel implements ActionListener, KeyListener {
@@ -15,6 +17,7 @@ public class TetrisGame extends JPanel implements ActionListener, KeyListener {
     private boolean[][] grid = new boolean[HEIGHT][WIDTH];
     private int currentX, currentY;
     private int[][] currentShape;
+    private List<Color> shapeColors;
     private Random random = new Random();
 
     public TetrisGame() {
@@ -25,6 +28,7 @@ public class TetrisGame extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
         setFocusable(true);
         initGame();
+        createShapeColors();
     }
 
     private void initGame() {
@@ -36,11 +40,19 @@ public class TetrisGame extends JPanel implements ActionListener, KeyListener {
         spawnShape();
     }
 
+    private void createShapeColors() {
+        shapeColors = new ArrayList<>();
+        shapeColors.add(Color.RED);
+        shapeColors.add(Color.BLUE);
+        shapeColors.add(Color.YELLOW);
+        shapeColors.add(Color.ORANGE);
+    }
+
     private void spawnShape() {
         currentX = WIDTH / 2;
         currentY = 0;
 
-        // Define different shapes
+        // Define different shapes with colors
         int shapeType = random.nextInt(7);
         switch (shapeType) {
             case 0:
@@ -148,10 +160,10 @@ public class TetrisGame extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    private void drawBlock(Graphics2D g, int x, int y) {
-        g.setColor(Color.BLACK); // Monochromatic color
+    private void drawBlock(Graphics2D g, int x, int y, Color color) {
+        g.setColor(color);
         g.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        g.setColor(Color.GRAY);
+        g.setColor(Color.BLACK);
         g.drawRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
@@ -172,7 +184,8 @@ public class TetrisGame extends JPanel implements ActionListener, KeyListener {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 if (grid[i][j]) {
-                    drawBlock(g2d, j, i);
+                    int colorIndex = random.nextInt(shapeColors.size());
+                    drawBlock(g2d, j, i, shapeColors.get(colorIndex));
                 }
             }
         }
@@ -181,7 +194,7 @@ public class TetrisGame extends JPanel implements ActionListener, KeyListener {
         for (int i = 0; i < currentShape.length; i++) {
             for (int j = 0; j < currentShape[0].length; j++) {
                 if (currentShape[i][j] == 1) {
-                    drawBlock(g2d, currentX + j, currentY + i);
+                    drawBlock(g2d, currentX + j, currentY + i, Color.CYAN);
                 }
             }
         }

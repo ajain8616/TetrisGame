@@ -12,13 +12,6 @@ public class TetrisGrid extends JPanel {
         {0, 4},   // Row 3
         {0, 5},  // Row 4
     };  
-    private int[][] newIshape={
-        {0,2},
-        {0,3},
-        {0,4},
-        {0,5}
-    };
-       
     public TetrisGrid() {
         setLayout(new BorderLayout());
         JPanel buttonPanelJPanel = new JPanel(new GridLayout(0, 1)); // Vertical layout        buttonPanelRightJPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Adding padding
