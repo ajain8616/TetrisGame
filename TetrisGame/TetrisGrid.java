@@ -11,7 +11,14 @@ public class TetrisGrid extends JPanel {
         {0, 3}, // Row 2
         {0, 4},   // Row 3
         {0, 5},  // Row 4
-    };   
+    };  
+    private int[][] newIshape={
+        {0,2},
+        {0,3},
+        {0,4},
+        {0,5}
+    };
+       
     public TetrisGrid() {
         setLayout(new BorderLayout());
         JPanel buttonPanelJPanel = new JPanel(new GridLayout(0, 1)); // Vertical layout        buttonPanelRightJPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Adding padding
@@ -172,11 +179,49 @@ public class TetrisGrid extends JPanel {
             repaint();  // Redraw the panel to reflect the changes
         }
     }
-    private void addIShape() {
-        
+    private void addIShape()
+    {
+      
     }
     
     private void rotatedShapes() {
-        
+        // Clone the current I-shaped block coordinates
+        int[][] rotatedCoordinates = new int[iShapeCoordinates.length][2];
+    
+        // Calculate the center of the I-shaped block
+        int centerX = iShapeCoordinates[1][1];
+        int centerY = iShapeCoordinates[1][0];
+    
+        // Perform clockwise rotation for each coordinate
+        for (int i = 0; i < iShapeCoordinates.length; i++) {
+            int x = iShapeCoordinates[i][1];
+            int y = iShapeCoordinates[i][0];
+    
+            // Calculate the new coordinates after rotation
+            int newX = centerX - centerY + y;
+            int newY = centerX + centerY - x;
+    
+            rotatedCoordinates[i][0] = newY;
+            rotatedCoordinates[i][1] = newX;
+        }
+    
+        // Check if the new coordinates are valid (within the grid)
+        boolean canRotate = true;
+        for (int[] coord : rotatedCoordinates) {
+            int row = coord[0];
+            int col = coord[1];
+    
+            if (row < 0 || row >= 8 || col < 0 || col >= 10) {
+                canRotate = false;
+                break;
+            }
+        }
+    
+        if (canRotate) {
+            // Update the I-shaped block coordinates with the rotated coordinates
+            iShapeCoordinates = rotatedCoordinates;
+            repaint();  // Redraw the panel to reflect the changes
+        }
     }
+    
 }
